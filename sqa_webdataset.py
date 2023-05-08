@@ -23,7 +23,7 @@ def convert(args: SqaConfig):
                 with open(image_path, "rb") as image_file:
                     image_base64 = base64.b64encode(image_file.read()).decode("utf-8")
             else:
-                print("Image missing...")
+                print(f"Image '{image_path}' missing...")
                 image_base64 = ""
             sample_data["problem"] = problem
             sample_data["image_base64"] = image_base64
