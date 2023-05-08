@@ -1,6 +1,7 @@
 import json
 from dataclasses import dataclass
 import os.path as osp
+from typing import Union
 
 
 @dataclass
@@ -133,8 +134,12 @@ class ParseProblem:
         return text
 
     @classmethod
-    def build_prompt(cls, problem, args: SqaConfig):
-        assert args.prompt_format in cls.PROMPT_TEMPLATE
+    def build_prompt(cls, problem, args: Union[SqaConfig, str]):
+        if isinstance(args, str):
+            prompt_format = args
+        else:
+            prompt_format = args.prompt_format
+        assert prompt_format in cls.PROMPT_TEMPLATE
         question = cls.get_question_text(problem)
         context = cls.get_context_text(problem)
         choice = cls.get_choice_text(problem)
@@ -142,7 +147,7 @@ class ParseProblem:
         lecture = cls.get_lecture_text(problem)
         solution = cls.get_solution_text(problem)
 
-        train_example = cls.create_one_example(args.prompt_format,
+        train_example = cls.create_one_example(prompt_format,
                                                question,
                                                context,
                                                choice,
