@@ -12,7 +12,7 @@ def convert(args: SqaConfig):
     problems, qids = load_data(args)
     dst_dir = osp.join(args.output_dir, args.split)
     os.makedirs(dst_dir, exist_ok=True)
-    with wds.ShardWriter(args.output_dir + "/%09d.tar", maxcount=1000) as sink:
+    with wds.ShardWriter(dst_dir + "/%09d.tar", maxcount=1000) as sink:
         for qid in tqdm(qids, desc="parsing problems..."):
             sample_data = {}
             problem = problems[qid]
@@ -50,5 +50,6 @@ def parse_args():
 if __name__ == '__main__':
     args = parse_args()
     config = SqaConfig(args.split, args.prompt_format)
+    convert(config)
 
 
